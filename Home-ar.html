@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rose Studios | الصفحة الرئيسية</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg-dark: #050507;
+      --card-bg: rgba(12, 12, 15, 0.88);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(255, 255, 255, 0.6);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Noto Sans Arabic", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity, filter;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% {
+        opacity: 0;
+        transform: translateY(100px);
+        filter: blur(15px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+      }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% {
+        opacity: 1;
+        transform: scale(1) translateZ(0);
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.82) translateZ(0);
+        filter: blur(25px);
+      }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 100% 0%, rgba(70, 70, 75, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(55, 55, 60, 0.15) 0%, transparent 50%),
+        #050507;
+      filter: blur(40px);
+    }
+    
+    #web-canvas { 
+      position: fixed; 
+      inset: 0; 
+      z-index: 0; 
+      pointer-events: none; 
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 30px; 
+      margin-bottom: 10px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+    }
+    
+    .brand-tag { 
+      font-size: 0.75rem; 
+      letter-spacing: 3px; 
+      color: var(--text-muted); 
+      margin-bottom: 8px; 
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 2px; 
+      margin-bottom: 16px; 
+    }
+    
+    .portfolio-link-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04); 
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main); 
+      padding: 10px 24px; 
+      border-radius: 30px;
+      font-size: 0.8rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      will-change: transform;
+    }
+    
+    .portfolio-link-btn:hover {
+      border-color: var(--border-active); 
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+    
+    .portfolio-link-btn:active {
+      transform: scale(0.92) !important;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .portfolio-link-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { 
+        transform: scale(4); 
+        opacity: 0; 
+      }
+    }
+    
+    .spider-network-container {
+      position: relative; 
+      width: 100%; 
+      max-width: 1250px; 
+      height: 720px; 
+      margin: 0 auto; 
+      z-index: 2;
+    }
+    
+    .web-node {
+      position: absolute; 
+      width: 270px; 
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle); 
+      border-radius: 16px; 
+      padding: 16px;
+      backdrop-filter: blur(10px); 
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      animation: subtleFloat 8s ease-in-out infinite alternate;
+    }
+    
+    .web-node:hover { 
+      border-color: var(--border-active); 
+      transform: scale(1.04); 
+      z-index: 20; 
+    }
+    
+    @keyframes subtleFloat { 
+      0% { transform: translate(0, 0); } 
+      100% { transform: translate(0, 10px); } 
+    }
+    
+    .node-1 { top: 2%; right: 2%; animation-delay: 0s; }
+    .node-2 { top: 2%; left: 2%; animation-delay: 1.5s; }
+    .node-3 { top: 28%; right: 38%; animation-delay: 3s; }
+    .node-4 { top: 50%; right: 2%; animation-delay: 2s; }
+    .node-5 { top: 50%; left: 2%; animation-delay: 0.8s; }
+    .node-6 { top: 62%; right: 38%; animation-delay: 3.5s; }
+    
+    .node-header {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      margin-bottom: 10px; 
+      border-bottom: 1px dashed var(--border-subtle); 
+      padding-bottom: 6px;
+    }
+    
+    .node-title { 
+      font-size: 0.78rem; 
+      font-weight: 600; 
+    }
+    
+    .node-tag { 
+      font-size: 0.6rem; 
+      color: var(--text-muted); 
+      border: 1px solid var(--border-subtle); 
+      padding: 2px 6px; 
+      border-radius: 6px; 
+    }
+    
+    .node-content { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+    }
+    
+    .item {
+      font-size: 0.75rem; 
+      color: var(--text-muted); 
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.6); 
+      border: 1px solid rgba(255, 255, 255, 0.03); 
+      border-radius: 8px;
+    }
+    
+    @media (max-width: 950px) {
+      .spider-network-container { 
+        height: auto; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 20px; 
+        align-items: center; 
+        padding: 20px; 
+      }
+      .web-node { 
+        position: relative; 
+        top: auto !important; 
+        left: auto !important; 
+        right: auto !important; 
+        width: 100%; 
+        max-width: 340px; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay"></div>
+  <canvas id="web-canvas"></canvas>
+
+  <header>
+    <div class="brand-tag">صُنع بواسطة ROSE STUDIOS</div>
+    <h1>شبكة خطط الإنتاج المترابطة</h1>
+
+    <a href="protofolio-ar.html" class="portfolio-link-btn" id="portfolio-btn">
+      <span class="ripple"></span>
+      <span>استعراض معرض الأعمال</span>
+      <span class="arrow">←</span>
+    </a>
+  </header>
+
+  <div class="spider-network-container">
+    <div class="web-node node-1">
+      <div class="node-header"><span class="node-title">01 / الاستكشاف والتحليل</span><span class="node-tag">البداية</span></div>
+      <div class="node-content"><div class="item">تقييم الهوية البصرية</div><div class="item">تحديد الاتجاه الإبداعي</div></div>
+    </div>
+    <div class="web-node node-2">
+      <div class="node-header"><span class="node-title">02 / العرض والتخطيط</span><span class="node-tag">الخطة</span></div>
+      <div class="node-content"><div class="item">تحديد الأسعار والباقات</div><div class="item">جدول المواعيد والمراحل</div></div>
+    </div>
+    <div class="web-node node-3">
+      <div class="node-header"><span class="node-title">03 / التعاقد والاتفاق</span><span class="node-tag">الأساس</span></div>
+      <div class="node-content"><div class="item">توقيع الشروط والأحكام</div><div class="item">دفع العربون وحجز الموعد</div></div>
+    </div>
+    <div class="web-node node-4">
+      <div class="node-header"><span class="node-title">04 / استلام الملحقات</span><span class="node-tag">المدخلات</span></div>
+      <div class="node-content"><div class="item">استلام اللقطات الخام</div><div class="item">ملفات الصوت والمؤثرات</div></div>
+    </div>
+    <div class="web-node node-5">
+      <div class="node-header"><span class="node-title">05 / الإنتاج والمونتاج</span><span class="node-tag">التنفيذ</span></div>
+      <div class="node-content"><div class="item">القص المبدئي والمؤثرات</div><div class="item">مكساج الصوت ومراجعته</div></div>
+    </div>
+    <div class="web-node node-6">
+      <div class="node-header"><span class="node-title">06 / التسليم النهائي</span><span class="node-tag">المخرجات</span></div>
+      <div class="node-content"><div class="item">تصدير أعلى جودة HQ</div><div class="item">تصفية الحساب والتسليم</div></div>
+    </div>
+  </div>
+
+  <script>
+    const portfolioBtn = document.getElementById('portfolio-btn');
+    portfolioBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute('href');
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const ripple = this.querySelector('.ripple');
+      const diameter = Math.max(rect.width, rect.height);
+      
+      ripple.style.width = ripple.style.height = `${diameter}px`;
+      ripple.style.left = `${x - diameter / 2}px`;
+      ripple.style.top = `${y - diameter / 2}px`;
+      ripple.style.animation = 'rippleEffect 0.6s linear';
+      
+      document.body.classList.add('page-exiting');
+      
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 950);
+    });
+    
+    const canvas = document.getElementById('web-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() { 
+      canvas.width = window.innerWidth; 
+      canvas.height = window.innerHeight; 
+    }
+    
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    
+    let mouse = { x: null, y: null, radius: 150 };
+    window.addEventListener('mousemove', (e) => { 
+      mouse.x = e.clientX; 
+      mouse.y = e.clientY; 
+    });
+    
+    function drawSubtleSpiderWeb() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const nodes = document.querySelectorAll('.web-node');
+      const coords = [];
+      
+      nodes.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        coords.push({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      });
+    
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < coords.length - 1; i++) {
+        ctx.beginPath(); 
+        ctx.moveTo(coords[i].x, coords[i].y);
+        ctx.lineTo(coords[i + 1].x, coords[i + 1].y);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; 
+        ctx.stroke();
+      }
+    
+      for (let i = 0; i < coords.length; i++) {
+        for (let j = i + 1; j < coords.length; j++) {
+          const dist = Math.hypot(coords[i].x - coords[j].x, coords[i].y - coords[j].y);
+          if (dist < 500) {
+            ctx.beginPath(); 
+            ctx.moveTo(coords[i].x, coords[i].y);
+            ctx.lineTo(coords[j].x, coords[j].y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - dist / 500 * 0.08})`; 
+            ctx.stroke();
+          }
+        }
+      }
+    
+      if (mouse.x && mouse.y) {
+        coords.forEach(coord => {
+          const distMouse = Math.hypot(coord.x - mouse.x, coord.y - mouse.y);
+          if (distMouse < mouse.radius) {
+            ctx.beginPath(); 
+            ctx.moveTo(coord.x, coord.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.28 - distMouse / mouse.radius * 0.2})`; 
+            ctx.stroke();
+          }
+        });
+      }
+      requestAnimationFrame(drawSubtleSpiderWeb);
+    }
+    drawSubtleSpiderWeb();
+  </script>
+</body>
+</html>
