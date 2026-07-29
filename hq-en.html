@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rose Studios | HQ Export Matrix</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --border-active: rgba(34, 197, 94, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --accent-green-glow: rgba(34, 197, 94, 0.25);
+      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-contrast: 'Cinzel', serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: pageTransitionIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes pageTransitionIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(10px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: pageTransitionOut 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes pageTransitionOut {
+      0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.95); filter: blur(15px); }
+    }
+    
+    /* Immersive Animated Grid & Orbs */
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridMove 20s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(40px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.2;
+      pointer-events: none;
+      animation: orbFloat 10s ease-in-out infinite alternate;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-30px) scale(1.12); }
+    }
+    
+    .glow-orb-1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.08);
+      top: -10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-green);
+      bottom: -15%;
+      right: 15%;
+      opacity: 0.12;
+      animation-delay: -4s;
+    }
+    
+    /* Header & Navigation */
+    header {
+      text-align: center; 
+      margin-top: 40px; 
+      margin-bottom: 30px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.65rem; 
+      letter-spacing: 3px; 
+      color: var(--text-muted); 
+      margin-bottom: 8px; 
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    header h1 { 
+      font-size: 1.75rem; 
+      font-weight: 600; 
+      letter-spacing: 0.5px; 
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 30%, #8e8e93 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03); 
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main); 
+      padding: 9px 22px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--border-active); 
+      background: rgba(34, 197, 94, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(34, 197, 94, 0.15);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    /* Main Layout Containers */
+    .content-container {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      padding: 0 20px 30px 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .info-card:hover {
+      border-color: var(--border-active);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 45px rgba(34, 197, 94, 0.08);
+    }
+    
+    .info-card h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 14px;
+    }
+    
+    .badge-pill {
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-card ul {
+      list-style-type: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    
+    .info-card li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      position: relative;
+      padding-left: 32px;
+    }
+    
+    .info-card li strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+    
+    .platform-svg-icon {
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      fill: var(--accent-green);
+      filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
+    }
+    
+    /* Interactive Widget */
+    .viral-deck-container {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      margin-bottom: 50px;
+      z-index: 2;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .viral-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .viral-card:hover {
+      border-color: var(--border-active);
+      box-shadow: 0 15px 45px rgba(34, 197, 94, 0.12);
+    }
+    
+    .sound-waves-preview {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 38px;
+      padding: 0 18px;
+      background: rgba(34, 197, 94, 0.05);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.12);
+    }
+    
+    .wave-bar {
+      width: 4px;
+      background: var(--accent-green);
+      border-radius: 4px;
+      animation: wavePulse 1.2s ease-in-out infinite alternate;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+    
+    .wave-bar:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+    .wave-bar:nth-child(2) { height: 22px; animation-delay: 0.3s; }
+    .wave-bar:nth-child(3) { height: 30px; animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { height: 16px; animation-delay: 0.5s; }
+    .wave-bar:nth-child(5) { height: 26px; animation-delay: 0.15s; }
+    .wave-bar:nth-child(6) { height: 14px; animation-delay: 0.4s; }
+    .wave-bar:nth-child(7) { height: 24px; animation-delay: 0.25s; }
+    .wave-bar:nth-child(8) { height: 18px; animation-delay: 0.35s; }
+    
+    @keyframes wavePulse {
+      0% { transform: scaleY(0.35); opacity: 0.4; }
+      100% { transform: scaleY(1.35); opacity: 1; box-shadow: 0 0 15px rgba(34, 197, 94, 1); }
+    }
+    
+    .counter-display {
+      font-family: var(--font-contrast);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+      letter-spacing: 1.5px;
+      text-align: center;
+    }
+    
+    .viral-advice {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.65;
+      max-width: 680px;
+    }
+    
+    .viral-advice strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">Rose Studios Matrix</div>
+    <h1>HQ Export Matrix</h1>
+    <a href="Home-en.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>← Back Home</span>
+    </a>
+  </header>
+
+  <div class="content-container">
+    <div class="info-card">
+      <h2>
+        <span>High-Quality Export & Master Delivery Protocol</span> 
+        <span class="badge-pill">Step 06 Final</span>
+      </h2>
+      <ul>
+        <li>
+          <!-- Master Resolution & Codec Icon -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM8 15h8v-2H8v2zm0-4h8V9H8v2z"/></svg>
+          <strong>High-Bitrate & 4K/1080p Master Renders:</strong> Exporting final project files using maximum bitrate settings, optimal color spaces (ProRes / High-Profile H.264/H.265), and pristine uncompressed audio streams tailored for broadcast and cinematic delivery.
+        </li>
+        <li>
+          <!-- Cloud Delivery & Secure Access Icon -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4-4 4z"/></svg>
+          <strong>Cloud Archive & Secure Delivery:</strong> Uploading master files to high-speed secure cloud storage servers (Google Drive, Frame.io master downloads) ensuring instant, lossless access for the client.
+        </li>
+        <li>
+          <!-- Project Archive & Handover Icon -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
+          <strong>Project Source Archiving:</strong> Final packaging of project files, customized motion graphics templates, and raw project assets into a clean archival structure for long-term safekeeping and future updates.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="viral-deck-container">
+    <div class="viral-card">
+      <div class="sound-waves-preview">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <div class="counter-display">
+        HQ EXPORT & MASTER DELIVERY MATRIX
+      </div>
+    
+      <div class="viral-advice">
+        <strong>Master Export Guarantee:</strong> Delivery of pristine, high-bitrate uncompressed video and audio assets through ultra-fast secure cloud links, completing the ultimate production workflow.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 700);
+      });
+    });
+  </script>
+</body>
+</html>

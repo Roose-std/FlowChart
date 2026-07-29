@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | معرض الأعمال</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(34, 197, 94, 0.7);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exit-down {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    /* Background Grids & Glowing Orbs */
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.14);
+      top: -10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.1);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      width: 100%;
+      max-width: 1200px;
+      margin: 35px auto 25px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    /* Brand Tag مكبرة وبارزة جداً */
+    .brand-tag {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent-green);
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.2);
+    }
+    
+    /* Minimal Social Links Styles */
+    .social-links-minimal {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .social-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+    }
+    
+    .social-icon-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      transition: transform 0.3s ease;
+    }
+    
+    .social-icon-btn:hover {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: var(--accent-green);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+    }
+    
+    .social-icon-btn:hover svg {
+      transform: scale(1.1);
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      max-width: 500px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    /* Filter Tabs Container */
+    .filter-container {
+      position: relative;
+      display: inline-flex;
+      background: rgba(12, 12, 15, 0.92);
+      border: 1px solid var(--border-subtle);
+      padding: 6px;
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+      gap: 4px;
+      margin: 30px 0;
+      z-index: 5;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    
+    .active-indicator {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      right: 0;
+      width: 0;
+      background: var(--accent-green);
+      border-radius: 30px;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+    }
+    
+    .filter-btn {
+      position: relative;
+      z-index: 2;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      font-family: var(--font-apple);
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      white-space: nowrap;
+      transition: color 0.3s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .filter-btn:hover {
+      color: var(--text-main);
+    }
+    
+    .filter-btn.active {
+      color: #ffffff;
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+    
+    .filter-btn.clicked-effect {
+      animation: tabClickPulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes tabClickPulse {
+      0% { transform: scale(1); }
+      35% { transform: scale(0.88); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Portfolio Grid & Cards */
+    .portfolio-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      min-height: 400px;
+      width: 100%;
+    }
+    
+    .portfolio-card {
+      width: calc(33.333% - 14px);
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      right: 0;
+      
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    }
+    
+    .portfolio-card.card-hidden {
+      opacity: 0;
+      filter: blur(20px);
+      pointer-events: none;
+    }
+    
+    .portfolio-card:hover {
+      border-color: rgba(34, 197, 94, 0.6);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.1);
+      z-index: 10;
+    }
+    
+    .card-media {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: #0d0d12;
+      overflow: hidden;
+    }
+    
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .portfolio-card:hover .card-media img { transform: scale(1.05); }
+    
+    .media-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(12, 12, 15, 0.9) 0%, transparent 60%);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+    
+    .category-badge {
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      padding: 3px 8px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      color: var(--accent-green);
+    }
+    
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 12px;
+    }
+    
+    .card-title { 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      color: #ffffff;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+      margin-top: auto;
+    }
+    
+    .view-project-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    
+    .view-project-btn:hover { opacity: 0.8; }
+    
+    @media (max-width: 900px) {
+      .portfolio-card { width: calc(50% - 10px); }
+    }
+    
+    @media (max-width: 600px) {
+      .portfolio-card { width: 100%; }
+      .brand-tag { font-size: 1.1rem; letter-spacing: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="top-nav">
+      <div class="brand-area">
+        <div class="brand-tag">ROSE STUDIOS</div>
+        <div class="social-links-minimal">
+          <!-- فيسبوك -->
+          <a href="https://www.facebook.com/profile.php?id=61592155025162" target="_blank" class="social-icon-btn" title="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <!-- إنستجرام -->
+          <a href="https://www.instagram.com/roose_studios/" target="_blank" class="social-icon-btn" title="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        </div>
+      </div>
+      <a href="Home-ar.html" class="back-btn" id="back-to-home-btn">
+        <span class="ripple"></span>
+        <span>الرئيسية</span>
+        <span>←</span>
+      </a>
+    </div>
+
+    <h1 class="page-title">معرض الأعمال الإبداعي</h1>
+    <p class="page-subtitle">استعرض أحدث أعمالنا في المونتاج السينمائي والمؤثرات البصرية.</p>
+    
+    <div class="filter-container" id="filterContainer">
+      <div class="active-indicator" id="activeIndicator"></div>
+      <button class="filter-btn active" data-filter="all">الكل</button>
+      <button class="filter-btn" data-filter="gaming">مونتاج الألعاب</button>
+      <button class="filter-btn" data-filter="soon">قريبا...</button>
+    </div>
+  </header>
+
+  <main class="portfolio-grid" id="portfolioGrid">
+    <article class="portfolio-card" data-category="gaming">
+      <div class="card-media">
+        <img src="thumb1.png" alt="pubg mobile editing">
+        <div class="media-overlay">
+          <span class="category-badge">مونتاج الألعاب</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">إيديت ببجي موبايل</h2>
+        <div class="card-footer">
+          <span style="font-size: 0.72rem; color: var(--text-muted);">أفتر إيفيكت</span>
+          <a href="project_1-ar.html" class="view-project-btn">
+            <span>مشاهدة المشروع</span>
+            <span>←</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const filterContainer = document.getElementById('filterContainer');
+    const indicator = document.getElementById('activeIndicator');
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = Array.from(document.querySelectorAll('.portfolio-card'));
+    const grid = document.getElementById('portfolioGrid');
+
+    function updateIndicator(activeBtn) {
+      const containerRect = filterContainer.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const rightPos = containerRect.right - btnRect.right;
+      const width = btnRect.width;
+    
+      indicator.style.right = `${rightPos}px`;
+      indicator.style.width = `${width}px`;
+    }
+    
+    function layoutGrid(filterValue) {
+      let cardWidth = cards.length > 0 ? cards[0].offsetWidth : 300;
+      let gap = 20;
+      
+      let columns = 3;
+      if (window.innerWidth <= 600) {
+        columns = 1;
+      } else if (window.innerWidth <= 900) {
+        columns = 2;
+      }
+    
+      let visibleIndex = 0;
+      let maxHeight = 0;
+    
+      cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        const isMatch = (filterValue === 'all' || cardCategory === filterValue);
+    
+        if (isMatch) {
+          card.classList.remove('card-hidden');
+          
+          let col = visibleIndex % columns;
+          let row = Math.floor(visibleIndex / columns);
+    
+          let targetX = -col * (cardWidth + gap);
+          let targetY = row * (card.offsetHeight + gap);
+    
+          card.dataset.targetX = targetX;
+          card.dataset.targetY = targetY;
+    
+          card.style.transform = `translate(${targetX}px, ${targetY}px)`;
+          
+          let currentBottom = targetY + card.offsetHeight;
+          if (currentBottom > maxHeight) {
+            maxHeight = currentBottom;
+          }
+    
+          visibleIndex++;
+        } else {
+          card.classList.add('card-hidden');
+        }
+      });
+    
+      grid.style.height = `${maxHeight + 40}px`;
+    }
+    
+    window.addEventListener('load', () => {
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) {
+        indicator.style.transition = 'none';
+        updateIndicator(activeBtn);
+        setTimeout(() => {
+          indicator.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        }, 50);
+      }
+      layoutGrid('all');
+    });
+    
+    window.addEventListener('resize', () => {
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) updateIndicator(activeBtn);
+      const currentFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+      layoutGrid(currentFilter);
+    });
+    
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    
+        btn.classList.remove('clicked-effect');
+        void btn.offsetWidth;
+        btn.classList.add('clicked-effect');
+    
+        updateIndicator(btn);
+    
+        const filterValue = btn.getAttribute('data-filter');
+        layoutGrid(filterValue);
+      });
+    });
+    
+    // Ripple Effect & Page Exit Transition for Links
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+    
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exit-down');
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 900);
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | متطلبات الملفات الخام</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.14);
+      top: -10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.1);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.06); 
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .content-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px 40px 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .info-card:hover {
+      border-color: rgba(34, 197, 94, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.1);
+    }
+    
+    .info-card h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--border-subtle);
+      padding-bottom: 10px;
+    }
+    
+    .info-card ul {
+      list-style-type: none;
+      padding-right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .info-card li {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      position: relative;
+      padding-right: 18px;
+    }
+    
+    .info-card li::before {
+      content: '•';
+      position: absolute;
+      right: 0;
+      color: var(--accent-green);
+    }
+    
+    .info-card strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+    
+    .info-card code {
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+    
+    /* Stickman & Flying Files Stage */
+    .stickman-stage {
+      width: 100%;
+      max-width: 900px;
+      height: 220px;
+      margin: 10px auto 40px auto;
+      padding: 0 20px;
+      z-index: 2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(12, 12, 15, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+    
+    /* Target Folder (Placed on Left side) */
+    .folder-target {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 3;
+    }
+    
+    .folder-icon {
+      width: 65px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1));
+      border: 2px solid var(--accent-green);
+      border-radius: 6px 12px 12px 12px;
+      position: relative;
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.4), inset 0 0 10px rgba(34, 197, 94, 0.2);
+      animation: folderBounce 2s infinite ease-in-out;
+    }
+    
+    .folder-icon::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 0;
+      width: 25px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 4px 4px 0 0;
+    }
+    
+    @keyframes folderBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); box-shadow: 0 0 35px rgba(34, 197, 94, 0.7); }
+    }
+    
+    .folder-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent-green);
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+    }
+    
+    /* Stickman Workspace (Placed on Right side, facing left towards the folder) */
+    .stickman-workspace {
+      display: flex;
+      align-items: flex-end;
+      gap: 15px;
+      position: relative;
+      z-index: 3;
+    }
+    
+    .stickman {
+      position: relative;
+      width: 50px;
+      height: 110px;
+    }
+    
+    .stick-head {
+      position: absolute;
+      top: 0;
+      left: 15px;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid var(--accent-green);
+      border-radius: 50%;
+      background: var(--bg-dark);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    .stick-body {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      width: 2.5px;
+      height: 45px;
+      background: var(--accent-green);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    .stick-arm {
+      position: absolute;
+      top: 28px;
+      left: 10px;
+      width: 30px;
+      height: 2.5px;
+      background: var(--accent-green);
+      transform-origin: right center;
+      transform: rotate(15deg);
+      animation: typingArm 0.3s infinite alternate ease-in-out;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    @keyframes typingArm {
+      0% { transform: rotate(25deg); }
+      100% { transform: rotate(5deg); }
+    }
+    
+    .stick-leg-left {
+      position: absolute;
+      top: 63px;
+      left: 16px;
+      width: 2.5px;
+      height: 40px;
+      background: var(--accent-green);
+      transform-origin: top center;
+      transform: rotate(20deg);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    .stick-leg-right {
+      position: absolute;
+      top: 63px;
+      left: 30px;
+      width: 2.5px;
+      height: 40px;
+      background: var(--accent-green);
+      transform-origin: top center;
+      transform: rotate(-20deg);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    .desk-setup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    
+    .laptop {
+      position: relative;
+      width: 75px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.5px solid var(--accent-green);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+    }
+    
+    .laptop-screen-glow {
+      width: 60px;
+      height: 30px;
+      background: rgba(34, 197, 94, 0.25);
+      border-radius: 2px;
+      animation: screenPulse 1.5s infinite alternate;
+    }
+    
+    @keyframes screenPulse {
+      0% { opacity: 0.5; box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+      100% { opacity: 1; box-shadow: 0 0 15px rgba(34, 197, 94, 0.7); }
+    }
+    
+    .laptop-base {
+      width: 90px;
+      height: 5px;
+      background: var(--accent-green);
+      border-radius: 2px;
+      margin-top: 1px;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+    }
+    
+    .desk-table {
+      width: 120px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      margin-top: 2px;
+    }
+    
+    /* Flying Files: Starts from Right (near the stickman workspace) and flies Left towards the folder */
+    .flying-file {
+      position: absolute;
+      right: 170px;
+      top: 85px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(12, 12, 15, 0.9);
+      border: 1.5px solid var(--accent-green);
+      padding: 6px 12px;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+      animation: flyFromRightToLeft 3s infinite linear;
+      opacity: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+    
+    .flying-file svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--accent-green);
+      fill: none;
+      stroke-width: 2.2;
+    }
+    
+    .flying-file span {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      letter-spacing: 1px;
+    }
+    
+    .file-1 { animation-delay: 0s; }
+    .file-2 { animation-delay: 0.75s; }
+    .file-3 { animation-delay: 1.5s; }
+    .file-4 { animation-delay: 2.25s; }
+    
+    @keyframes flyFromRightToLeft {
+      0% {
+        transform: translate(0, 0) scale(0.6) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-100vw + 340px), -25px) scale(0.2) rotate(-360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>04 / إرسال الملفات الخام — المتطلبات الأساسية</h1>
+    <a href="Home-ar.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>← العودة للرئيسية</span>
+    </a>
+  </header>
+
+  <div class="content-container">
+
+    <div class="info-card">
+      <h2>
+        <span>1. الخطوط — تذكير سريع</span> 
+        <span style="font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 6px;">الخطوط ✍️</span>
+      </h2>
+      <ul>
+        <li><strong>المتطلب:</strong> إذا كنت تستخدم خطوطاً محددة أو هوية بصرية نصية مخصصة، يُرجى إرفاق ملفات الخطوط بصيغة <code>TTF</code> أو <code>OTF</code>، أو ذكر أسماء الخطوط بدقة لتجنب أي استبدال تلقائي.</li>
+      </ul>
+    </div>
+    
+    <div class="info-card">
+      <h2>
+        <span>2. الصوت — تذكير سريع</span> 
+        <span style="font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 6px;">الصوتيات 🎵</span>
+      </h2>
+      <ul>
+        <li><strong>المتطلب:</strong> إرسال المقاطع الصوتية (التعليق الصوتي أو الموسيقى الخلفية) في ملفات منفصلة بأعلى دقة ونقاء ممكن (<code>WAV</code> أو <code>MP3</code> بسرعة لا تقل عن <code>320kbps</code>)، مع تجنب أي ضوضاء في الخلفية لتسهيل الهندسة الصوتية لاحقاً.</li>
+      </ul>
+    </div>
+    
+    <div class="info-card">
+      <h2>
+        <span>3. اللقطات الخام ومقاطع اللعب</span> 
+        <span style="font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 6px;">اللقطات 🎥</span>
+      </h2>
+      <ul>
+        <li><strong>الدقة:</strong> يفضل أن تكون اللقطات بجودة لا تقل عن <code>1080p</code> وبمعدل إطارات مرتفع (<code>60fps</code> أو أعلى) لضمان سلاسة حركة الكاميرا وتأثيرات تسريع السرعة (Speed Ramping).</li>
+        <li><strong>الوضوح والثبات:</strong> يُرجى إرسال اللقطات بدون ضغط مفرط لتفادي ظهور تشويش أو بكسلة عند تطبيق الفلاتر وتصحيح الألوان.</li>
+        <li><strong>التنظيم:</strong> يُنصح بتسمية الملفات بترتيب اللقطات أو الأحداث الهامة (مثل لقطات الحسم أو مقدمات ونهايات البث) لتوفير وقت الإنتاج.</li>
+      </ul>
+    </div>
+    
+    <div class="info-card">
+      <h2>
+        <span>4. المنصة وأبعاد الإطار</span> 
+        <span style="font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 6px;">المقاسات 📱</span>
+      </h2>
+      <ul>
+        <li><strong>تحديد المقاسات:</strong> يجب تحديد منصة النشر المستهدفة (مثل تيك توك / ريلز بأبعاد <code>9:16</code> أو يوتيوب بأبعاد <code>16:9</code>) لكي يتم ضبط تأطير المشاهد بدقة منذ البداية.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Stickman Working & Files Flying into Folder Stage -->
+  <div class="stickman-stage">
+
+    <!-- Target Folder (On Left) -->
+    <div class="folder-target">
+      <div class="folder-icon"></div>
+      <span class="folder-label">RAW FILES</span>
+    </div>
+    
+    <!-- Flying Files (Fly from Right to Left) -->
+    <div class="flying-file file-1">
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+      <span>VIDEO</span>
+    </div>
+    <div class="flying-file file-2">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+      <span>PHOTO</span>
+    </div>
+    <div class="flying-file file-3">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+      <span>NOTE</span>
+    </div>
+    <div class="flying-file file-4">
+      <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+      <span>SOUND</span>
+    </div>
+    
+    <!-- Stickman Workspace (On Right, facing Left towards the folder) -->
+    <div class="stickman-workspace">
+      <div class="stickman">
+        <div class="stick-head"></div>
+        <div class="stick-body"></div>
+        <div class="stick-arm"></div>
+        <div class="stick-leg-left"></div>
+        <div class="stick-leg-right"></div>
+      </div>
+      <div class="desk-setup">
+        <div class="laptop">
+          <div class="laptop-screen-glow"></div>
+        </div>
+        <div class="laptop-base"></div>
+        <div class="desk-table"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>
