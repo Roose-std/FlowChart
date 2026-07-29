@@ -153,14 +153,7 @@
     .video-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 16/9;
       background: #000;
-    }
-    
-    .video-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
     
     .project-info-section {
@@ -273,11 +266,9 @@
   <main class="project-container">
     <div class="video-card">
       <div class="video-wrapper">
-        <iframe src="https://archive.org/embed/montage_20260729_0242" 
-                title="PUBG Mobile Editing" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-        </iframe>
+        <div style="position:relative; width:100%; height:0px; padding-bottom:56.250%">
+          <iframe allow="fullscreen" allowfullscreen height="100%" src="https://streamable.com/e/xzrkc2?nocontrols=1" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+        </div>
       </div>
 
       <div class="project-info-section">
@@ -350,3 +341,4 @@
 
 </body>
 </html>
+
