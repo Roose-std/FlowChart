@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | مصفوفة مراجعة الهندسة الصوتية</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --border-active: rgba(34, 197, 94, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --accent-green-glow: rgba(34, 197, 94, 0.25);
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-contrast: 'Cinzel', serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: pageTransitionIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes pageTransitionIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(10px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: pageTransitionOut 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes pageTransitionOut {
+      0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.95); filter: blur(15px); }
+    }
+    
+    /* Immersive Animated Grid & Orbs */
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridMove 20s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(40px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.2;
+      pointer-events: none;
+      animation: orbFloat 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-30px) scale(1.12); }
+    }
+    
+    .glow-orb-1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.08);
+      top: -10%;
+      right: 15%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 450px;
+      height: 450px;
+      background: var(--accent-green);
+      bottom: -15%;
+      left: 15%;
+      opacity: 0.12;
+      animation-delay: -4s;
+    }
+    
+    /* Header & Navigation */
+    header {
+      text-align: center; 
+      margin-top: 40px; 
+      margin-bottom: 30px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.65rem; 
+      letter-spacing: 3px; 
+      color: var(--text-muted); 
+      margin-bottom: 8px; 
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    header h1 { 
+      font-size: 1.75rem; 
+      font-weight: 600; 
+      letter-spacing: 0.5px; 
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 30%, #8e8e93 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03); 
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main); 
+      padding: 9px 22px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--border-active); 
+      background: rgba(34, 197, 94, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(34, 197, 94, 0.15);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    /* Main Layout Containers */
+    .content-container {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      padding: 0 20px 30px 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .info-card:hover {
+      border-color: var(--border-active);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 45px rgba(34, 197, 94, 0.08);
+    }
+    
+    .info-card h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 14px;
+    }
+
+    .badge-pill {
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-card ul {
+      list-style-type: none;
+      padding-right: 0;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    
+    .info-card li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      position: relative;
+      padding-right: 32px;
+      padding-left: 0;
+    }
+    
+    .info-card li strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+    
+    .platform-svg-icon {
+      position: absolute;
+      right: 0;
+      left: auto;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      fill: var(--accent-green);
+      filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
+    }
+    
+    /* Interactive Audio Deck Widget */
+    .viral-deck-container {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      margin-bottom: 50px;
+      z-index: 2;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .viral-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .viral-card:hover {
+      border-color: var(--border-active);
+      box-shadow: 0 15px 45px rgba(34, 197, 94, 0.12);
+    }
+
+    .sound-waves-preview {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 38px;
+      padding: 0 18px;
+      background: rgba(34, 197, 94, 0.05);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.12);
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: var(--accent-green);
+      border-radius: 4px;
+      animation: wavePulse 1.2s ease-in-out infinite alternate;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+
+    .wave-bar:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+    .wave-bar:nth-child(2) { height: 22px; animation-delay: 0.3s; }
+    .wave-bar:nth-child(3) { height: 30px; animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { height: 16px; animation-delay: 0.5s; }
+    .wave-bar:nth-child(5) { height: 26px; animation-delay: 0.15s; }
+    .wave-bar:nth-child(6) { height: 14px; animation-delay: 0.4s; }
+    .wave-bar:nth-child(7) { height: 24px; animation-delay: 0.25s; }
+    .wave-bar:nth-child(8) { height: 18px; animation-delay: 0.35s; }
+
+    @keyframes wavePulse {
+      0% { transform: scaleY(0.35); opacity: 0.4; }
+      100% { transform: scaleY(1.35); opacity: 1; box-shadow: 0 0 15px rgba(34, 197, 94, 1); }
+    }
+
+    .counter-display {
+      font-family: var(--font-contrast);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .viral-advice {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.65;
+      max-width: 680px;
+    }
+
+    .viral-advice strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">مصفوفة روز ستوديوز</div>
+    <h1>مصفوفة مراجعة الهندسة الصوتية</h1>
+    <a href="Home-ar.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>← العودة للرئيسية</span>
+    </a>
+  </header>
+
+  <div class="content-container">
+    <div class="info-card">
+      <h2>
+        <span>بروتوكول الهندسة الصوتية والمراجعة</span> 
+        <span class="badge-pill">معايير المراحل</span>
+      </h2>
+      <ul>
+        <li>
+          <!-- Sound Wave Icon for Audio Mixing -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M2 13h2v-2H2v2zm4 4h2v-6H6v6zm4 4h2v-14h-2v14zm4-7h2V9h-2v5zm4-3v2h2v-2h-2z"/></svg>
+          <strong>مرحلة هندسة الصوت والماسترينغ:</strong> دمج الملفات الصوتية الخام المقدمة من العميل، المقاطع المخصصة، وملفات الإيقاع بدقة متناهية مع مزامنة المونتاج. تطبيق أحدث تقنيات الهندسة الصوتية، موازنة الترددات، والتصميم الصوتي الغامر لزيادة تفاعل المشاهدين وبقائهم لأقصى فترة ممكنة.
+        </li>
+        <li>
+          <!-- Frame.io / Play & Comments UI Icon -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM10 7.5l7 4.5-7 4.5z"/></svg>
+          <strong>مراجعة العميل عبر Frame.io:</strong> استخدام منصة <strong>Frame.io</strong> لتمكين العميل من معاينة مسودات الفيديو بسلاسة (مع العلامة المائية)، ترك ملاحظات دقيقة مرتبطة بالإطار الزمني (Frame-accurate)، وتسجيل تعليقاته وملاحظاته مباشرة على التوقيت الزمني قبل الاعتماد النهائي.
+        </li>
+        <li>
+          <!-- Checkmark / Final Sign-Off Icon -->
+          <svg class="platform-svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <strong>الاعتماد النهائي والتسليم الشامل:</strong> بمجرد دمج ملاحظات العميل بالكامل من Frame.io واعتمادها، يتم فتح قفل الملفات الرئيسية، والصادرات ذات البتريت العالي (High-bitrate)، وأصول الإنتاج المخصصة للتحميل والتوزيع النهائي.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="viral-deck-container">
+    <div class="viral-card">
+      <div class="sound-waves-preview">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <div class="counter-display">
+        مرحلة المراجعة والماستر الصوتي
+      </div>
+
+      <div class="viral-advice">
+        <strong>ضمان مرحلة المراجعة:</strong> نضمن لك هندسة صوتية نقية، مزامنة دقيقة للإيقاع، ورضا إبداعياً تاماً من خلال دورات مراجعة منظمة وملاحظات دقيقة متوافقة مع الإطارات عبر <strong>Frame.io</strong> قبل تسليم الماستر النهائي.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 700);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rose Studios | Professional Terms & Conditions</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(34, 197, 94, 0.7);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.12);
+      top: -10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(34, 197, 94, 0.08);
+      bottom: -20%;
+      right: 10%;
+      animation-delay: -3s;
+    }
+
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.06); 
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .back-btn .ripple, .rule-link .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .rules-grid {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      padding: 0 20px 60px 20px;
+      z-index: 2;
+    }
+
+    .rule-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .rule-card:hover {
+      border-color: rgba(34, 197, 94, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.1);
+    }
+
+    .rule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed var(--border-subtle);
+      padding-bottom: 10px;
+    }
+
+    .rule-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .rule-tag {
+      font-size: 0.58rem;
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      background: rgba(34, 197, 94, 0.05);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .rule-body {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rule-body strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .rule-body ul {
+      list-style-type: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rule-body li {
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .rule-body li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--accent-green);
+    }
+
+    .rule-footer-link {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    .rule-link {
+      position: relative;
+      overflow: hidden;
+      font-size: 0.7rem;
+      color: var(--accent-green);
+      text-decoration: none;
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .rule-link:hover {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: var(--accent-green);
+    }
+
+    @media (max-width: 900px) {
+      .rules-grid {
+        grid-template-columns: 1fr;
+        padding: 0 16px 40px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>Services Agreement & Core Policy</h1>
+    <a href="Home-en.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>← Back to Workflow</span>
+    </a>
+  </header>
+
+  <div class="rules-grid">
+    
+    <!-- Section 1: Financial Policy & Retainers -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">01 / Financial Policy & Retainers</span>
+        <span class="rule-tag">Finance</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Deposit Requirement:</strong> A non-refundable deposit ranging between <strong>25% to 50%</strong> is mandatory to secure slot booking. No technical work begins without it.</li>
+          <li><strong>Milestone Payments:</strong> Remaining balances must be cleared according to pre-agreed milestones before final delivery.</li>
+          <li><strong>Authorized Channels:</strong> Payments must be sent strictly via official channels (Vodafone Cash, Instapay, Bank Transfer). The receipt serves as proof.</li>
+        </ul>
+      </div>
+      <div class="rule-footer-link">
+        <a href="price-en.html" class="rule-link">
+          <span class="ripple"></span>
+          <span>View Pricing Tiers</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section 2: Workflow & Revisions Limit -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">02 / Workflow & Revisions Limit</span>
+        <span class="rule-tag">Production</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Free Revisions:</strong> Every package includes exactly <strong>two (2) rounds</strong> of structural or technical revisions.</li>
+          <li><strong>Extra Revisions:</strong> Any additional changes requested beyond the initial 2 rounds will incur extra charges calculated by hourly rates or fixed fees.</li>
+          <li><strong>Major Rescopes:</strong> Fundamental structural changes after production begins require a brand new agreement and schedule.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 3: Raw Assets & Material Prep -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">03 / Raw Assets & Client Responsibility</span>
+        <span class="rule-tag">Inputs</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Asset Quality:</strong> Clients hold full responsibility for providing high-resolution, organized raw materials (footage, logos, fonts, audio).</li>
+          <li><strong>Stable Links:</strong> Files must be shared via stable cloud links (Google Drive, Mega). Poor source quality is not the studio's liability.</li>
+          <li><strong>Pipeline Pauses:</strong> Delayed or missing asset submissions will automatically freeze the project schedule.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 4: Intellectual Property & Files -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">04 / Intellectual Property & Files</span>
+        <span class="rule-tag">Copyrights</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Master Files:</strong> Rose Studios retains full IP rights to all project source files (.aep, .prproj) unless purchased separately.</li>
+          <li><strong>Source File Purchase:</strong> Source files can be acquired for an additional fee equivalent to the base package value after full settlement.</li>
+          <li><strong>Archive Window:</strong> Project files are safely archived for up to <strong>three (3) months</strong> post-delivery before permanent deletion.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 5: Portfolio & Showcase Rights -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">05 / Portfolio & Showcase Rights</span>
+        <span class="rule-tag">Display</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Public Display:</strong> Rose Studios reserves the right to showcase completed non-disclosure projects and montage cuts in our official portfolio.</li>
+          <li><strong>Attribution:</strong> Clients agree to maintain studio attribution when publishing outputs, unless a formal NDA is established beforehand.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 6: Cancellation & Termination -->
+    <div class="rule-card">
+      <div class="rule-header">
+        <span class="rule-title">06 / Cancellation & Termination</span>
+        <span class="rule-tag">Policy</span>
+      </div>
+      <div class="rule-body">
+        <ul>
+          <li><strong>Client Cancellation:</strong> If a project is cancelled mid-production, the initial deposit is non-refundable to cover reserved resources.</li>
+          <li><strong>Studio Termination:</strong> Rose Studios reserves the right to terminate contracts immediately in cases of unprofessional conduct or unresponsive client communication exceeding 14 days.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>

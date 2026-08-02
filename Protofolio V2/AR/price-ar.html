@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | أسعار وخطط الخدمات</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(10, 10, 13, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --border-active: rgba(255, 255, 255, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --accent-green-glow: rgba(34, 197, 94, 0.4);
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.2;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.12);
+      top: -10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.08);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px var(--accent-green-glow);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04); 
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-green-glow);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    /* Page Layout */
+    .page-layout {
+      position: relative;
+      width: 100%;
+      max-width: 1350px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 22px;
+      padding: 0 20px 60px 20px;
+      z-index: 2;
+      align-items: stretch;
+    }
+    
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    
+    /* Matrix Table Design */
+    .matrix-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+    
+    .matrix-table th, .matrix-table td {
+      padding: 12px 16px;
+      font-size: 0.74rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    
+    .matrix-table thead th {
+      background: rgba(255, 255, 255, 0.03);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.65rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .matrix-table thead th:first-child {
+      text-align: right;
+    }
+    
+    .matrix-table tbody tr {
+      transition: background 0.2s ease;
+    }
+    
+    .matrix-table tbody tr:hover {
+      background: rgba(34, 197, 94, 0.02);
+    }
+    
+    .col-feature {
+      font-weight: 400;
+      color: var(--text-muted);
+      width: 25%;
+      border-left: 1px solid rgba(255, 255, 255, 0.03);
+      border-right: none;
+    }
+    
+    .col-tier {
+      text-align: center;
+      width: 25%;
+      color: #ffffff;
+    }
+    
+    .col-tier.highlight {
+      background: rgba(34, 197, 94, 0.03);
+      border-right: 1px solid rgba(34, 197, 94, 0.1);
+      border-left: 1px solid rgba(34, 197, 94, 0.1);
+    }
+    
+    .price-tag-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    
+    .price-blur-anim {
+      display: inline-block;
+      will-change: filter, opacity;
+    }
+    
+    .price-tag-cell .usd {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-shadow: 0 0 10px var(--accent-green-glow);
+    }
+    
+    .price-tag-cell .egp {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    
+    .goal-row td {
+      background: rgba(34, 197, 94, 0.02);
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      line-height: 1.5;
+      text-align: right;
+    }
+    
+    .goal-row strong {
+      color: var(--accent-green);
+    }
+    
+    @keyframes aeWiggle {
+      0% { transform: translate(5px, 0px) rotate(0deg); }
+      20% { transform: translate(0px, 8px) rotate(-0.50deg); }
+      40% { transform: translate(7px, 0px) rotate(0.56deg); }
+      60% { transform: translate(4px, 2px) rotate(-0.53deg); }
+      80% { transform: translate(8px, 6px) rotate(0.54deg); }
+      100% { transform: translate(5px, 0px) rotate(0deg); }
+    }
+    
+    .right-offers-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      position: sticky;
+      top: 25px;
+      overflow: visible;
+      animation: aeWiggle 6s ease-in-out infinite;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* Vertical Compact Button Style with Green Theme */
+    .coming-soon-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 70%; 
+      margin: 0 auto;
+      height: 62%; 
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #000000;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 20px 10px;
+      border-radius: 100px;
+      letter-spacing: 2px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 5px 25px rgba(34, 197, 94, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.35s ease;
+      overflow: hidden;
+    }
+    
+    .coming-soon-btn:hover {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(34, 197, 94, 0.6);
+    }
+    
+    .coming-soon-btn .arrow {
+      font-size: 1.3rem; 
+      font-weight: 900;
+      writing-mode: horizontal-tb;
+      transform: rotate(90deg);
+      transition: transform 0.2s ease;
+    }
+    
+    .coming-soon-btn:hover .arrow {
+      transform: rotate(90deg) translateX(4px);
+    }
+    
+    .coming-soon-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @media (max-width: 1100px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+      }
+      .right-offers-panel {
+        position: static;
+        animation: none;
+        margin-top: 20px;
+        height: auto;
+      }
+      .coming-soon-btn {
+        writing-mode: horizontal-tb;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        height: auto;
+        min-height: 55px;
+        padding: 14px 22px;
+        border-radius: 50px;
+      }
+      .coming-soon-btn .arrow {
+        transform: none;
+      }
+      .coming-soon-btn:hover .arrow {
+        transform: translateX(4px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .matrix-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>الأسعار والخطط</h1>
+    <div class="nav-buttons">
+      <a href="rules-ar.html" class="back-btn" id="back-btn">
+        <span class="ripple"></span>
+        <span>← العودة للشروط والسياسات</span>
+      </a>
+      <a href="Home-ar.html" class="back-btn" id="home-btn">
+        <span class="ripple"></span>
+        <span>العودة للرئيسية ←</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="page-layout">
+
+    <!-- Main Content: Comparison Matrix Table -->
+    <div class="main-content">
+      
+      <div class="matrix-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th class="col-feature">المواصفات</th>
+              <th class="col-tier">الأساسي (Basic)</th>
+              <th class="col-tier highlight">المعياري (Standard)</th>
+              <th class="col-tier">المميز (Premium)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-feature">التكلفة / الاستثمار</td>
+              <td class="col-tier">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="15" data-start="150">$15</span>
+                  <span class="egp price-blur-anim" data-target="750" data-start="9500">750 جنيه</span>
+                </div>
+              </td>
+              <td class="col-tier highlight">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="30" data-start="300">$30</span>
+                  <span class="egp price-blur-anim" data-target="1500" data-start="18000">1,500 جنيه</span>
+                </div>
+              </td>
+              <td class="col-tier">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="50" data-start="500">$50</span>
+                  <span class="egp price-blur-anim" data-target="2500" data-start="30000">2,500 جنيه</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col-feature">مدة التسليم</td>
+              <td class="col-tier">1 - 2 يوم</td>
+              <td class="col-tier highlight">2 - 4 أيام</td>
+              <td class="col-tier">3 - 5 أيام</td>
+            </tr>
+            <tr>
+              <td class="col-feature">مدة الفيديو</td>
+              <td class="col-tier">15 - 25 ثانية</td>
+              <td class="col-tier highlight">15 - 35 ثانية</td>
+              <td class="col-tier">15 - 45 ثانية</td>
+            </tr>
+            <tr>
+              <td class="col-feature">التعديلات (Revisions)</td>
+              <td class="col-tier">مرلتان (إضافي = مدفوع)</td>
+              <td class="col-tier highlight">مرلتان (إضافي = مدفوع)</td>
+              <td class="col-tier">مرلتان (إضافي = مدفوع)</td>
+            </tr>
+            <tr>
+              <td class="col-feature">تصحيح الألوان (Color Grading)</td>
+              <td class="col-tier">تحسين ألوان بسيط فقط</td>
+              <td class="col-tier highlight">نقي / حاد (Clean / Sharp)</td>
+              <td class="col-tier">تصحيح ألوان سينمائي فائق</td>
+            </tr>
+            <tr>
+              <td class="col-feature">القص والتزامن (Sync & Cuts)</td>
+              <td class="col-tier">قص نظيف / تزامن مع الإيقاع</td>
+              <td class="col-tier highlight">تلاعب بالسرعة Speed Ramp، موشن بلور</td>
+              <td class="col-tier">قص دقيق، تلاعب متقدم بالسرعة</td>
+            </tr>
+            <tr>
+              <td class="col-feature">التأثيرات والضبابية (Effects)</td>
+              <td class="col-tier">حد أدنى / لا يوجد</td>
+              <td class="col-tier highlight">إضاءة، RSMB، تأثيرات أساسية</td>
+              <td class="col-tier">جميع التأثيرات المسموحة والمتقدمة</td>
+            </tr>
+            <tr>
+              <td class="col-feature">الرفع والمتابعة (Upscale & Tracking)</td>
+              <td class="col-tier">الأصلي / لا يوجد</td>
+              <td class="col-tier highlight">تحسين 1080p / تتبع بسيط جداً</td>
+              <td class="col-tier">دقة فائقة 2x / نصوص وعناصر متقدمة</td>
+            </tr>
+            <tr>
+              <td class="col-feature">صورة الغلاف (Thumbnail)</td>
+              <td class="col-tier">لا يوجد</td>
+              <td class="col-tier highlight">بسيطة جداً</td>
+              <td class="col-tier">الأفضل / تصميم مخصص احترافي</td>
+            </tr>
+            <tr>
+              <td class="col-feature">الصوتيات والمؤثرات (Audio & SFX)</td>
+              <td class="col-tier">موسيقى مونتاج أساسية</td>
+              <td class="col-tier highlight">ملخص مؤثرات صوتية عالية الجودة</td>
+              <td class="col-tier">مؤثرات غامرة ممتازة + أحدث تصميم صوتي</td>
+            </tr>
+            <tr>
+              <td class="col-feature">الترجمات والنصوص (Subtitles)</td>
+              <td class="col-tier">مسموح (افتتاحية / نظيفة)</td>
+              <td class="col-tier highlight">ديناميكية ومنمقة</td>
+              <td class="col-tier">ترجمات احترافية مخصصة</td>
+            </tr>
+            <tr>
+              <td class="col-feature">الأفضل لـ</td>
+              <td class="col-tier">الملخصات / المقاطع القصيرة</td>
+              <td class="col-tier highlight">مقدمات عالية الجودة للفيديوهات الطويلة</td>
+              <td class="col-tier">لقطات القتل الحماسية، الفيديوهات الفيروسية، مجموعات اللقطات</td>
+            </tr>
+            <tr class="goal-row">
+              <td class="col-feature">الهدف والرؤية</td>
+              <td colspan="3">
+                <strong>الأساسي:</strong> فيديو جيد المظهر بميزانية ودية. &bull; 
+                <strong>المعياري:</strong> رفع الجودة (احترافي ونظيف) مع صوت نقي. &bull; 
+                <strong>المميز:</strong> الفيديو الأكثر سينمائية وصوتاً الغامراً لأقصى تفاعل.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+    </div>
+    
+    <!-- Right Side Panel -->
+    <aside class="right-offers-panel">
+      <a href="soon-ar.html" class="coming-soon-btn" id="coming-soon-btn">
+        <span class="ripple"></span>
+        <span class="arrow">→</span>
+        <span>قريباً</span>
+      </a>
+    </aside>
+
+  </div>
+
+  <script>
+    // Price Countdown with Directional Motion Blur (3.5s duration)
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".price-blur-anim");
+
+      counters.forEach(counter => {
+        const target = +counter.getAttribute("data-target");
+        const startVal = +counter.getAttribute("data-start");
+        const isUsd = counter.classList.contains("usd");
+        let startTime = null;
+        const duration = 3500;
+    
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const currentVal = Math.floor(startVal - (easeOutQuart * (startVal - target)));
+    
+          const currentBlur = (1 - easeOutQuart) * 6;
+          const currentOpacity = 0.35 + (progress * 0.65);
+          
+          counter.style.filter = `blur(${currentBlur}px)`;
+          counter.style.opacity = currentOpacity;
+    
+          if (isUsd) {
+            counter.textContent = `$${currentVal}`;
+          } else {
+            counter.textContent = `${currentVal.toLocaleString()} جنيه`;
+          }
+    
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            if (isUsd) {
+              counter.textContent = `$${target}`;
+            } else {
+              counter.textContent = `${target.toLocaleString()} جنيه`;
+            }
+            counter.style.filter = "blur(0px)";
+            counter.style.opacity = "1";
+          }
+        }
+    
+        requestAnimationFrame(updateCounter);
+      });
+    });
+    
+    // Coming Soon Button Click Sequence: Blur on button first (0.35s), then page zoom-out blur exit transition
+    const comingSoonBtn = document.getElementById('coming-soon-btn');
+    if (comingSoonBtn) {
+      comingSoonBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        
+        this.style.transition = 'filter 0.35s ease, opacity 0.35s ease';
+        this.style.filter = 'blur(6px)';
+        this.style.opacity = '0.4';
+    
+        setTimeout(() => {
+          document.body.classList.add('page-exiting');
+          
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 950);
+        }, 350);
+      });
+    }
+    
+    // General Page Transition & Ripple Effect for other links
+    document.querySelectorAll('a:not(#coming-soon-btn)').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+    
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>
