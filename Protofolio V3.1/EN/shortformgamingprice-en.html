@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rose Studios | Pricing & Comparison Matrix</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(10, 10, 13, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --border-active: rgba(255, 255, 255, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --accent-green-glow: rgba(34, 197, 94, 0.4);
+      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.2;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.12);
+      top: -10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.08);
+      bottom: -20%;
+      right: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px var(--accent-green-glow);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04); 
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--accent-green-glow);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    /* Page Layout */
+    .page-layout {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 0 20px 60px 20px;
+      z-index: 2;
+      align-items: center;
+      margin: 0 auto;
+    }
+    
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
+      width: 100%;
+    }
+    
+    /* Mobile Cards View (Hidden on Desktop) */
+    .mobile-cards-container {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .plan-card.highlight {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: linear-gradient(to bottom, rgba(34, 197, 94, 0.05), var(--card-bg));
+    }
+    
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 12px;
+    }
+    
+    .plan-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    
+    .plan-badge {
+      font-size: 0.65rem;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .plan-price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    
+    .plan-price-box .usd {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      text-shadow: 0 0 10px var(--accent-green-glow);
+    }
+    
+    .plan-price-box .egp {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    
+    .plan-features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .plan-feature-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    
+    .plan-feature-label {
+      color: var(--text-muted);
+    }
+    
+    .plan-feature-value {
+      color: var(--text-main);
+      font-weight: 500;
+      text-align: right;
+    }
+    
+    .plan-goal {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px;
+      border-radius: 10px;
+      line-height: 1.4;
+    }
+    
+    .plan-goal strong {
+      color: var(--accent-green);
+    }
+    
+    /* Matrix Table Design */
+    .matrix-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    
+    .matrix-table th, .matrix-table td {
+      padding: 12px 16px;
+      font-size: 0.74rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    
+    .matrix-table thead th {
+      background: rgba(255, 255, 255, 0.03);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.65rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .matrix-table thead th:first-child {
+      text-align: left;
+    }
+    
+    .matrix-table tbody tr {
+      transition: background 0.2s ease;
+    }
+    
+    .matrix-table tbody tr:hover {
+      background: rgba(34, 197, 94, 0.02);
+    }
+    
+    .col-feature {
+      font-weight: 400;
+      color: var(--text-muted);
+      width: 25%;
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    
+    .col-tier {
+      text-align: center;
+      width: 25%;
+      color: #ffffff;
+    }
+    
+    .col-tier.highlight {
+      background: rgba(34, 197, 94, 0.03);
+      border-left: 1px solid rgba(34, 197, 94, 0.1);
+      border-right: 1px solid rgba(34, 197, 94, 0.1);
+    }
+    
+    .price-tag-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    
+    .price-blur-anim {
+      display: inline-block;
+      will-change: filter, opacity;
+    }
+    
+    .price-tag-cell .usd {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-shadow: 0 0 10px var(--accent-green-glow);
+    }
+    
+    .price-tag-cell .egp {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    
+    .goal-row td {
+      background: rgba(34, 197, 94, 0.02);
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      line-height: 1.5;
+    }
+    
+    .goal-row strong {
+      color: var(--accent-green);
+    }
+    
+    @media (max-width: 900px) {
+      .matrix-wrapper {
+        display: none; /* Hide wide table on phones */
+      }
+      .mobile-cards-container {
+        display: flex; /* Show mobile-optimized cards on phones */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>Pricing & Plans for Gaming (short-form)</h1>
+    <div class="nav-buttons">
+      <a href="rules-en.html" class="back-btn" id="back-btn">
+        <span class="ripple"></span>
+        <span>← Rules & Policy</span>
+      </a>
+      <a href="Home-en.html" class="back-btn" id="home-btn">
+        <span class="ripple"></span>
+        <span>Home →</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="page-layout">
+
+    <!-- Main Content: Comparison Matrix Table / Mobile Cards -->
+    <div class="main-content">
+      
+      <!-- Mobile-Optimized Card Layout -->
+      <div class="mobile-cards-container">
+        
+        <!-- Silver Plan Card -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <span class="plan-title">Silver</span>
+            <div class="plan-price-box">
+              <span class="usd price-blur-anim" data-target="15" data-start="150">$15</span>
+              <span class="egp price-blur-anim" data-target="750" data-start="9500">750 EGP</span>
+            </div>
+          </div>
+          <div class="plan-features-list">
+            <div class="plan-feature-row"><span class="plan-feature-label">Delivery Duration</span><span class="plan-feature-value">1 - 2 Days</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Video Length</span><span class="plan-feature-value">15 - 30 sec</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Revisions</span><span class="plan-feature-value">2 Rounds (Extra = Paid)</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Color Grading</span><span class="plan-feature-value">Only color enhancement</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Sync & Cuts</span><span class="plan-feature-value">Clean cuts</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Effects & Blur</span><span class="plan-feature-value">  None</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Audio & SFX</span><span class="plan-feature-value">Basic editing music</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Subtitles</span><span class="plan-feature-value">Allowed (Intro / Clean)</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Best For</span><span class="plan-feature-value">Summaries / Short clips</span></div>
+          </div>
+          <div class="plan-goal">
+            <strong>Goal:</strong> Simple good-looking video with friendly budget.
+          </div>
+        </div>
+    
+        <!-- Gold Plan Card (Highlighted) -->
+        <div class="plan-card highlight">
+          <div class="plan-header">
+            <div>
+              <span class="plan-title">Gold</span>
+              <div class="plan-badge" style="margin-top: 4px; display: inline-block;">Most Popular</div>
+            </div>
+            <div class="plan-price-box">
+              <span class="usd price-blur-anim" data-target="30" data-start="300">$30</span>
+              <span class="egp price-blur-anim" data-target="1500" data-start="18000">1,500 EGP</span>
+            </div>
+          </div>
+          <div class="plan-features-list">
+            <div class="plan-feature-row"><span class="plan-feature-label">Delivery Duration</span><span class="plan-feature-value"> 3 - 5 Days</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Video Length</span><span class="plan-feature-value"> 15 - 45 Sec</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Revisions</span><span class="plan-feature-value">2 Rounds (Extra = Paid)</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Color Grading</span><span class="plan-feature-value">Clean / Sharp</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Sync & Cuts</span><span class="plan-feature-value">Speed Ramp, Motion Blur</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Effects & Blur</span><span class="plan-feature-value">Exposure, RSMB, CC Force</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Audio & SFX</span><span class="plan-feature-value">High quality effects summary</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Subtitles</span><span class="plan-feature-value">Dynamic & Styled</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Best For</span><span class="plan-feature-value">High quality intros for long form</span></div>
+          </div>
+          <div class="plan-goal">
+            <strong>Goal:</strong> Enhance quality (Pro, clean) with smooth audio.
+          </div>
+        </div>
+    
+        <!-- Diamond Plan Card -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <span class="plan-title">Diamond</span>
+            <div class="plan-price-box">
+              <span class="usd price-blur-anim" data-target="70" data-start="500">$70</span>
+              <span class="egp price-blur-anim" data-target="3500" data-start="30000">3,500EGP</span>
+            </div>
+          </div>
+          <div class="plan-features-list">
+            <div class="plan-feature-row"><span class="plan-feature-label">Delivery Duration</span><span class="plan-feature-value">5 - 7 Days</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Video Length</span><span class="plan-feature-value">15 - 45 Sec</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Revisions</span><span class="plan-feature-value">2 Rounds (Extra = Paid)</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Color Grading</span><span class="plan-feature-value">Ultra Cinematic Color Correction</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Sync & Cuts</span><span class="plan-feature-value">Precision cut, Advanced Speed Ramp</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Effects & Blur</span><span class="plan-feature-value">CC Force, All effects allowed</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Audio & SFX</span><span class="plan-feature-value">Premium immersive SFX + Latest Library</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Subtitles</span><span class="plan-feature-value">Professional Custom Subtitles</span></div>
+            <div class="plan-feature-row"><span class="plan-feature-label">Best For</span><span class="plan-feature-value">Kill shots, Viral videos</span></div>
+          </div>
+          <div class="plan-goal">
+            <strong>Goal:</strong> Most Cinematic video & immersive sound for max engagement.
+          </div>
+        </div>
+    
+      </div>
+    
+      <!-- Desktop Matrix Table -->
+      <div class="matrix-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th class="col-feature">Specifications</th>
+              <th class="col-tier">Silver</th>
+              <th class="col-tier highlight">Gold</th>
+              <th class="col-tier">Diamond</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-feature">Investment / Cost</td>
+              <td class="col-tier">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="15" data-start="150">$15</span>
+                  <span class="egp price-blur-anim" data-target="750" data-start="9500">750 EGP</span>
+                </div>
+              </td>
+              <td class="col-tier highlight">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="30" data-start="300">$30</span>
+                  <span class="egp price-blur-anim" data-target="1500" data-start="18000">1,500 EGP</span>
+                </div>
+              </td>
+              <td class="col-tier">
+                <div class="price-tag-cell">
+                  <span class="usd price-blur-anim" data-target="70" data-start="500">$70</span>
+                  <span class="egp price-blur-anim" data-target="3500" data-start="30000">3,500EGP</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col-feature">Delivery Duration</td>
+              <td class="col-tier">1 - 2 Days</td>
+              <td class="col-tier highlight"> 3 - 5 Days</td>
+              <td class="col-tier">5 - 7 Days</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Video Length</td>
+              <td class="col-tier">15 - 30 sec</td>
+              <td class="col-tier highlight"> 15 - 45 Sec</td>
+              <td class="col-tier">15 - 45 Sec</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Revisions</td>
+              <td class="col-tier">2 Rounds (Extra = Paid)</td>
+              <td class="col-tier highlight">2 Rounds (Extra = Paid)</td>
+              <td class="col-tier">2 Rounds (Extra = Paid)</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Color Grading & CC</td>
+              <td class="col-tier">Only color enhancement</td>
+              <td class="col-tier highlight">Clean / Sharp</td>
+              <td class="col-tier">Ultra Cinematic Color Correction</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Sync & Cuts</td>
+              <td class="col-tier">Clean cuts</td>
+              <td class="col-tier highlight">Speed Ramp</td>
+              <td class="col-tier">Precision cut, Advanced Speed Ramp</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Effects & Motion Blur</td>
+              <td class="col-tier">  None</td>
+              <td class="col-tier highlight">Some effects, RSMB  </td>
+              <td class="col-tier">CC Force, All effects allowed</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Audio & SFX</td>
+              <td class="col-tier">Basic editing music</td>
+              <td class="col-tier highlight">High quality effects summary</td>
+              <td class="col-tier">Premium immersive SFX + Latest Library</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Subtitles</td>
+              <td class="col-tier">Allowed (Intro / Clean)</td>
+              <td class="col-tier highlight">Dynamic & Styled</td>
+              <td class="col-tier">Professional Custom Subtitles</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Best For</td>
+              <td class="col-tier">Summaries / Short clips</td>
+              <td class="col-tier highlight">High quality intros for long form</td>
+              <td class="col-tier">Kill shots, Viral videos, Group of shoots</td>
+            </tr>
+            <tr class="goal-row">
+              <td class="col-feature">Goal / Vision</td>
+              <td colspan="3">
+                <strong>Silver:</strong> Simple good-looking video with friendly budget. &bull; 
+                <strong>Gold:</strong> Enhance quality (Pro, clean) with smooth audio. &bull; 
+                <strong>Diamond:</strong> Most Cinematic video & immersive sound for max engagement.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+    </div>
+
+  </div>
+
+  <script>
+    // Price Countdown with Directional Motion Blur (3.5s duration)
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".price-blur-anim");
+
+      counters.forEach(counter => {
+        const target = +counter.getAttribute("data-target");
+        const startVal = +counter.getAttribute("data-start");
+        const isUsd = counter.classList.contains("usd");
+        let startTime = null;
+        const duration = 3500;
+    
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const currentVal = Math.floor(startVal - (easeOutQuart * (startVal - target)));
+    
+          const currentBlur = (1 - easeOutQuart) * 6;
+          const currentOpacity = 0.35 + (progress * 0.65);
+          
+          counter.style.filter = `blur(${currentBlur}px)`;
+          counter.style.opacity = currentOpacity;
+    
+          if (isUsd) {
+            counter.textContent = `$${currentVal}`;
+          } else {
+            counter.textContent = `${currentVal.toLocaleString()} EGP`;
+          }
+    
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            if (isUsd) {
+              counter.textContent = `$${target}`;
+            } else {
+              counter.textContent = `${target.toLocaleString()} EGP`;
+            }
+            counter.style.filter = "blur(0px)";
+            counter.style.opacity = "1";
+          }
+        }
+    
+        requestAnimationFrame(updateCounter);
+      });
+    });
+    
+    // General Page Transition & Ripple Effect for links
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+    
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>

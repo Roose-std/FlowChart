@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | سياسة سرعة التسليم</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(255, 255, 255, 0.7);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.14);
+      top: -10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.1);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.06); 
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .content-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px 40px 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .info-card:hover {
+      border-color: rgba(34, 197, 94, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.1);
+    }
+    
+    .info-card h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--border-subtle);
+      padding-bottom: 10px;
+    }
+    
+    .info-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    
+    .info-card strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+    
+    /* Table Design for Delivery Plans */
+    .speed-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+    
+    .speed-table th, .speed-table td {
+      padding: 12px 14px;
+      font-size: 0.78rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: right;
+    }
+    
+    .speed-table th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--accent-green);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+    
+    .speed-table td {
+      color: var(--text-muted);
+    }
+    
+    .speed-table td strong {
+      color: #ffffff;
+    }
+    
+    /* Express Pricing Grid */
+    .express-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .express-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .express-box:hover {
+      border-color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.04);
+      transform: translateY(-2px);
+    }
+    
+    .express-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .express-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    .express-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>سرعة التسليم ورسوم الطلبات العاجلة</h1>
+    <a href="Home-ar.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>العودة للرئيسية ←</span>
+    </a>
+  </header>
+
+  <div class="content-container">
+
+    <!-- Delivery Timeframes Card -->
+    <div class="info-card">
+      <h2>
+        <span>جداول مواعيد التسليم للخطط الأساسية</span> 
+        <span style="font-size: 0.65rem; color: var(--accent-green); border: 1px solid rgba(34,197,94,0.3); padding: 2px 6px; border-radius: 6px;">الإطار الزمني ⏱️</span>
+      </h2>
+      <p>
+        في <strong>روز ستوديوز</strong>، يمر كل فيديو بسلسلة دقيقة من القص الاحترافي، الهندسة الصوتية، تصحيح الألوان، والتأثيرات البصرية. تعتمد مدة التسليم بالكامل على خطة الباقة المختارة:
+      </p>
+      
+      <table class="speed-table">
+        <thead>
+          <tr>
+            <th>مستوى الباقة</th>
+            <th>مدة التسليم القياسية</th>
+            <th>تركيز الإنتاج</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>سيلفر</strong></td>
+            <td>1 - 2 يوم</td>
+            <td>قص نظيف، تحسين ألوان بسيط، وتزامن قياسي مع الإيقاع.</td>
+          </tr>
+          <tr>
+            <td><strong>ذهبي</strong></td>
+            <td>2 - 4 أيام</td>
+            <td>التلاعب بالسرعة (Speed Ramps)، موشن بلور متقدم، وتوازن صوتي احترافي.</td>
+          </tr>
+          <tr>
+            <td><strong>ماسي</strong></td>
+            <td>3 - 5 أيام</td>
+            <td>تصحيح ألوان سينمائي، ترجمات مخصصة، ومؤثرات صوتية غامرة فائقة.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Express / Rush Delivery Card -->
+    <div class="info-card">
+      <h2>
+        <span>خدمة التسليم السريع العاجل</span> 
+        <span style="font-size: 0.65rem; color: var(--accent-green); border: 1px solid rgba(34,197,94,0.3); padding: 2px 6px; border-radius: 6px;">أولوية قصوى ⚡</span>
+      </h2>
+      <p>
+        هل تحتاج إلى مونتاج الألعاب أو الفيديو الفيروسي الخاص بك في وقت قياسي يسبق الموعد المحدد؟ يمكنك طلب أولوية التسليم السريع بإضافة رسوم عاجلة بسيطة. يتم تحديد الرسوم بناءً على مدى تعقيد وطول الفيديو، وتتراوح ما بين <strong>5 إلى 20 دولار أمريكي</strong> (حوالي <strong>250 إلى 1,000 جنيه مصري</strong>).
+      </p>
+    
+      <div class="express-grid">
+        <div class="express-box">
+          <div class="express-title">تسليم عاجل خفيف (أولوية التقدم)</div>
+          <div class="express-price">$5 - $10 <span style="font-size:0.7rem; color:var(--text-muted);">(250 - 500 جنيه)</span></div>
+          <div class="express-desc">يوفر يوماً كاملاً من نافذة التسليم القياسية مع وضعه في مقدمة طابور الأولوية.</div>
+        </div>
+        <div class="express-box">
+          <div class="express-title">تسليم فائق السرعة (نفس اليوم / اليوم التالي)</div>
+          <div class="express-price">$12 - $20 <span style="font-size:0.7rem; color:var(--text-muted);">(600 - 1,000 جنيه)</span></div>
+          <div class="express-desc">عمليات معالجة ومونتاج فورية مخصصة على مدار الساعة للفيديوهات العاجلة الطارئة.</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Additional Policy Notes Card -->
+    <div class="info-card">
+      <h2>
+        <span>سياسات وإرشادات الاستوديو</span> 
+        <span style="font-size: 0.65rem; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 6px;">الشروط 📄</span>
+      </h2>
+      <p>
+        * تخضع طوابير التسليم السريع للطاقة الاستيعابية اليومية للاستوديو لضمان عدم المساس بالجودة الاحترافية الفائقة أبداً.<br>
+        * يجب توفير جميع الملفات الخام، المقاطع الصوتية الخاصة، والخطوط مسبقاً لمنع أي تأخير في بدء العد التنازلي للتسليم.<br>
+        * يتم احتساب تحويلات العملات إلى الجنيه المصري بناءً على الأسعار المرجعية وقت الاتفاق.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // General Page Transition & Ripple Effect for links
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>

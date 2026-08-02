@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>روز ستوديوز | اللقطات الخام وأصول اللعب</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(255, 255, 255, 0.7);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    body.page-exiting {
+      animation: zoomOutBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    
+    @keyframes zoomOutBlur {
+      0% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(0.82) translateZ(0); filter: blur(25px); }
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.14);
+      top: -10%;
+      right: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.1);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      text-align: center; 
+      margin-top: 35px; 
+      margin-bottom: 25px;
+      padding: 0 20px; 
+      z-index: 2; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      width: 100%;
+    }
+    
+    .brand-tag { 
+      font-size: 0.7rem; 
+      letter-spacing: 2.5px; 
+      color: var(--accent-green); 
+      margin-bottom: 6px; 
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+    
+    header h1 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      letter-spacing: 1px; 
+      margin-bottom: 14px;
+    }
+    
+    .back-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.06); 
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main); 
+      padding: 8px 20px; 
+      border-radius: 30px;
+      font-size: 0.78rem; 
+      text-decoration: none; 
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .back-btn:hover {
+      border-color: var(--accent-green); 
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+    
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .content-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px 40px 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .info-card:hover {
+      border-color: rgba(34, 197, 94, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.1);
+    }
+    
+    .info-card h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--border-subtle);
+      padding-bottom: 10px;
+    }
+    
+    .info-card ul {
+      list-style-type: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .info-card li {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      position: relative;
+      padding-right: 14px;
+    }
+    
+    .info-card li::before {
+      content: '•';
+      position: absolute;
+      right: 0;
+      color: var(--accent-green);
+    }
+    
+    .info-card strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+    
+    /* Studio Section Layout: Clapperboard next to flying shoots entering a folder */
+    .studio-action-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 35px;
+      margin-top: 15px;
+      margin-bottom: 40px;
+      z-index: 2;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+
+    /* Interactive Clapperboard with Continuous Open/Close Loop & Slight Bouncing */
+    .clapper-section {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: clapperFloat 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes clapperFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .clapperboard-wrapper {
+      position: relative;
+      width: 130px;
+      height: 100px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.35));
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .clapperboard-wrapper:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.6));
+    }
+
+    .clapper-stick {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 130px;
+      height: 22px;
+      background: #22c55e;
+      border-radius: 4px;
+      transform-origin: bottom right;
+      animation: clapLoop 4s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+      z-index: 3;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .stripe {
+      width: 14px;
+      height: 100%;
+      background: #030305;
+      transform: skewX(25deg);
+    }
+
+    @keyframes clapLoop {
+      0%, 10% { transform: rotate(0deg); }
+      35%, 55% { transform: rotate(26deg); }
+      80%, 100% { transform: rotate(0deg); }
+    }
+
+    .clapper-body {
+      position: absolute;
+      top: 20px;
+      width: 130px;
+      height: 78px;
+      background: rgba(12, 12, 15, 0.95);
+      border: 2px solid #22c55e;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      box-shadow: inset 0 0 15px rgba(34, 197, 94, 0.15);
+      z-index: 2;
+    }
+
+    .clapper-screen-cam {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cam-icon {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #22c55e;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.8));
+    }
+
+    .cam-lens {
+      transform-origin: center;
+      animation: cameraLoop 4s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+    }
+
+    @keyframes cameraLoop {
+      0%, 10% { transform: scale(0.6); opacity: 0.7; }
+      35%, 55% { transform: scale(1.35); opacity: 1; }
+      80%, 100% { transform: scale(0.6); opacity: 0.7; }
+    }
+
+    .clapper-text {
+      font-family: var(--font-apple);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #22c55e;
+      text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    }
+
+    .clapper-subtext {
+      margin-top: 10px;
+      font-family: var(--font-apple);
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: #22c55e;
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+      font-weight: 500;
+    }
+
+    /* Shoots Flying into Folder Container */
+    .shoots-vault-container {
+      position: relative;
+      width: 240px;
+      height: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* The Folder */
+    .vault-folder {
+      position: relative;
+      width: 130px;
+      height: 80px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 2px solid #22c55e;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3),
+                  inset 0 0 10px rgba(34, 197, 94, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      backdrop-filter: blur(8px);
+    }
+
+    .vault-folder::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      width: 50px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 -2px 8px rgba(34, 197, 94, 0.5);
+    }
+
+    .vault-label {
+      font-family: var(--font-apple);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #22c55e;
+      text-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+      z-index: 4;
+    }
+
+    /* Flying Shoots Tags */
+    .flying-shoot {
+      position: absolute;
+      right: -20px;
+      bottom: 35px;
+      background: rgba(34, 197, 94, 0.18);
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-family: var(--font-apple);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #22c55e;
+      text-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      animation: shootFlyIntoFolderRtl 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .flying-shoot:nth-child(1) { animation-delay: 0s; }
+    .flying-shoot:nth-child(2) { animation-delay: 0.8s; }
+    .flying-shoot:nth-child(3) { animation-delay: 1.6s; }
+    .flying-shoot:nth-child(4) { animation-delay: 2.4s; }
+    .flying-shoot:nth-child(5) { animation-delay: 3.2s; }
+
+    @keyframes shootFlyIntoFolderRtl {
+      0% {
+        transform: translate(40px, 40px) scale(0.6);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+        transform: translate(-10px, 15px) scale(1);
+      }
+      65% {
+        opacity: 1;
+        transform: translate(-75px, -35px) scale(0.85);
+      }
+      80% {
+        opacity: 0.8;
+        transform: translate(-95px, -50px) scale(0.4);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-110px, -60px) scale(0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <header>
+    <div class="brand-tag">ROSE STUDIOS</div>
+    <h1>اللقطات الخام وأصول اللعب</h1>
+    <a href="Home-ar.html" class="back-btn" id="back-btn">
+      <span class="ripple"></span>
+      <span>العودة للرئيسية ←</span>
+    </a>
+  </header>
+
+  <div class="content-container">
+    <div class="info-card">
+      <h2>
+        <span>اللقطات الخام ومقاطع اللعب</span> 
+        <span style="font-size: 0.65rem; color: var(--accent-green); border: 1px solid rgba(34,197,94,0.3); padding: 2px 6px; border-radius: 6px;">اللقطات 🎥</span>
+      </h2>
+      <ul>
+        <li><strong>أساس المونتاج:</strong> تُعتبر مقاطع الفيديو الخام وتسجيلات اللعب المادة المصدرية الأساسية التي تحدد التدفق العام، وتنسيق الإيقاع الحركي، سرد القصص البصرية للمونتاج النهائي.</li>
+        <li><strong>المواد المزودة من العميل:</strong> لضمان الأصالة ومطابقة أساليب اللعب الشخصية أو رؤى المشاريع، يقوم العميل بتوفير ملفات الفيديو الخام الخاصة به، لقطات القتل، ومقاطع المباريات مباشرة للإنتاج.</li>
+        <li><strong>معايير الجودة والدقة:</strong> تتيح ملفات المصدر عالية الدقة ومعدل الإطارات العالي إمكانية تسريع الحركة بسلاسة، وتصحيح الألوان المتقدم، وتأثيرات بصرية أنظف بدون تشويش.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="studio-action-section">
+    <!-- Clapperboard -->
+    <div class="clapper-section">
+      <div class="clapperboard-wrapper" onclick="navigator.vibrate && navigator.vibrate(50)">
+        <div class="clapper-stick">
+          <div class="stripe"></div>
+          <div class="stripe"></div>
+          <div class="stripe"></div>
+          <div class="stripe"></div>
+        </div>
+        <div class="clapper-body">
+          <div class="clapper-screen-cam">
+            <svg class="cam-icon" viewBox="0 0 24 24">
+              <path d="M23 7l-7 5 7 5V7z"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              <circle class="cam-lens" cx="8.5" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="clapper-text">ROSE CUT</div>
+        </div>
+      </div>
+      <div class="clapper-subtext">المشهد 01 • اللقطة 01</div>
+    </div>
+
+    <!-- Shoots Flying into Folder -->
+    <div class="shoots-vault-container">
+      <div class="flying-shoot">shoot_1</div>
+      <div class="flying-shoot">shoot_2</div>
+      <div class="flying-shoot">shoot_3</div>
+      <div class="flying-shoot">shoot_4</div>
+      <div class="flying-shoot">shoot_...</div>
+      
+      <div class="vault-folder">
+        <span class="vault-label">RAW VAULT</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (!targetUrl || targetUrl.startsWith('#')) return;
+
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = this.querySelector('.ripple');
+        if (ripple) {
+          const diameter = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = `${diameter}px`;
+          ripple.style.left = `${x - diameter / 2}px`;
+          ripple.style.top = `${y - diameter / 2}px`;
+          ripple.style.animation = 'rippleEffect 0.6s linear';
+        }
+        
+        document.body.classList.add('page-exiting');
+        setTimeout(() => { 
+          window.location.href = targetUrl; 
+        }, 950);
+      });
+    });
+  </script>
+</body>
+</html>

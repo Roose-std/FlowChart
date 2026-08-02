@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rose Studios | Support & Community Feedback</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-dark: #030305;
+      --card-bg: rgba(12, 12, 15, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(34, 197, 94, 0.7);
+      --text-main: #ffffff;
+      --text-muted: #8e8e93;
+      --accent-green: #22c55e;
+      --font-apple: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      background-color: var(--bg-dark);
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: slideInFromBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* شاشة جاري التحميل بستايل روز */
+    #globalLoadingScreen {
+      position: fixed;
+      inset: 0;
+      background-color: var(--bg-dark);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.5s ease;
+    }
+
+    .rose-loader-brand {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent-green);
+      text-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
+      animation: pulseBrand 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBrand {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .rose-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(34, 197, 94, 0.2);
+      border-top-color: var(--accent-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .rose-loading-text {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .page-content-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: filter 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    body.page-exit-blur .page-content-wrapper {
+      filter: blur(15px) !important;
+      pointer-events: none;
+    }
+    
+    @keyframes slideInFromBottom {
+      0% { opacity: 0; transform: translateY(100px); filter: blur(15px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    
+    .lang-transition-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 3, 5, 0.75);
+      backdrop-filter: blur(0px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    
+    .lang-transition-overlay.active {
+      opacity: 1;
+      backdrop-filter: blur(4px);
+      pointer-events: auto;
+    }
+    
+    .lang-transition-box {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 1px;
+      text-shadow: 0 0 25px rgba(34, 197, 94, 0.8);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    }
+    
+    .lang-transition-overlay.active .lang-transition-box {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    .bg-gradient-overlay {
+      position: fixed; 
+      inset: 0; 
+      z-index: -2;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+    
+    .bg-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1.2px, transparent 1.2px);
+      background-size: 50px 50px;
+      animation: gridMove 15s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(50px); }
+    }
+    
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+    
+    .glow-orb-1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(34, 197, 94, 0.14);
+      top: -10%;
+      right: 10%;
+    }
+    
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(140, 140, 180, 0.1);
+      bottom: -20%;
+      left: 10%;
+      animation-delay: -3s;
+    }
+    
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.2); }
+    }
+    
+    header {
+      width: 100%;
+      max-width: 1200px;
+      margin: 25px auto 20px auto;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .nav-right-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .brand-tag {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-green);
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.2);
+    }
+    
+    .social-links-minimal {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .social-icon-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+    }
+    
+    .social-icon-btn svg {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+    }
+    
+    .social-icon-btn:hover {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: var(--accent-green);
+      transform: translateY(-2px);
+    }
+    
+    .back-btn, .lang-globe-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      font-family: var(--font-apple);
+      cursor: pointer;
+    }
+    
+    .back-btn:hover, .lang-globe-btn:hover {
+      border-color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .lang-globe-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    
+    .back-btn .ripple, .lang-globe-btn .ripple, .submit-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      max-width: 550px;
+      text-align: center;
+      line-height: 1.5;
+      padding: 0 10px;
+    }
+
+    .support-container {
+      width: 100%;
+      max-width: 650px;
+      margin: 30px auto 0 auto;
+      padding: 0 16px;
+    }
+
+    .support-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--text-main);
+      font-family: var(--font-apple);
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.03);
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.15);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: var(--text-main);
+      padding: 14px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: var(--font-apple);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+    }
+
+    .submit-btn:hover {
+      background: var(--accent-green);
+      color: #000;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status-msg {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      text-align: center;
+      display: none;
+    }
+
+    .status-msg.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+    }
+
+    .status-msg.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+    }
+
+    .comments-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comment-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.3s ease;
+    }
+
+    .comment-card:hover {
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .comment-user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .comment-username {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .comment-status-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      color: #facc15;
+    }
+
+    .status-resolved, .status-modified {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+    }
+
+    .comment-body {
+      font-size: 0.85rem;
+      color: #d1d5db;
+      line-height: 1.4;
+      word-break: break-word;
+      padding-left: 36px;
+    }
+
+    .comment-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      padding-left: 36px;
+    }
+
+    @media (max-width: 768px) {
+      .support-card { padding: 20px; }
+      .brand-tag { font-size: 1rem; }
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- شاشة التحميل الافتتاحية -->
+  <div id="globalLoadingScreen">
+    <div class="rose-loader-brand">ROSE STUDIOS</div>
+    <div class="rose-spinner"></div>
+    <div class="rose-loading-text" id="loadingStatusText">Connecting to Database...</div>
+  </div>
+
+  <div class="lang-transition-overlay" id="langTransitionOverlay">
+    <div class="lang-transition-box">Changing language....</div>
+  </div>
+
+  <div class="bg-gradient-overlay">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+
+  <div class="page-content-wrapper" id="pageContentWrapper">
+    <header>
+      <div class="top-nav">
+        <div class="nav-right-group">
+          <a href="portfolio-en.html" class="back-btn">
+            <span class="ripple"></span>
+            <span>←</span>
+            <span>Portfolio</span>
+          </a>
+
+          <a href="../AR/support-ar.html" class="lang-globe-btn" id="lang-switch-btn" title="Switch to Arabic">
+            <span class="ripple"></span>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <span class="lang-text">AR</span>
+          </a>
+        </div>
+
+        <div class="brand-area">
+          <div class="brand-tag">ROSE STUDIOS</div>
+          <div class="social-links-minimal">
+            <a href="https://www.facebook.com/profile.php?id=61592155025162" target="_blank" class="social-icon-btn">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/roose_studios/" target="_blank" class="social-icon-btn">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="page-title">Community Support & Feedback</h1>
+      <p class="page-subtitle">Submit your feedback or issue. All previous submissions are shown below like community comments along with their status.</p>
+    </header>
+
+    <main class="support-container">
+      <div class="support-card">
+        <form id="supportForm">
+          <div class="form-group">
+            <label for="username">Your Name (Optional)</label>
+            <input type="text" id="username" name="username" class="form-input" placeholder="e.g. John Doe (Leave empty for Anonymous)">
+          </div>
+
+          <div class="form-group">
+            <label for="complaint_text">Complaint / Message Details <span style="color: var(--accent-green);">*</span></label>
+            <textarea id="complaint_text" name="complaint_text" class="form-textarea" placeholder="Describe your issue or feedback here..." required></textarea>
+          </div>
+
+          <button type="button" class="submit-btn" id="submitBtn">
+            <span class="ripple"></span>
+            <span id="btnText">Send Message</span>
+            <span id="btnIcon">→</span>
+          </button>
+
+          <div id="statusMsg" class="status-msg"></div>
+        </form>
+      </div>
+
+      <div class="support-card">
+        <h3 class="comments-section-title">Community Submissions</h3>
+        <div id="commentsList" class="comments-list">
+          <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">Loading submissions...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // تم ربط بيانات مشروعك في Supabase مباشرة هنا
+    const SUPABASE_URL = 'https://ahbgpvdzapjcfoakxisj.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_sYMXlJtRZZukmGZ8CwkVdQ_rq4Upaqv';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loadingScreen = document.getElementById('globalLoadingScreen');
+    const loadingStatusText = document.getElementById('loadingStatusText');
+
+    // تأثيرات التنقل بين الصفحات
+    const langSwitchBtn = document.getElementById('lang-switch-btn');
+    const langTransitionOverlay = document.getElementById('langTransitionOverlay');
+    const pageContentWrapper = document.getElementById('pageContentWrapper');
+    
+    if (langSwitchBtn) {
+      langSwitchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        if (pageContentWrapper) pageContentWrapper.classList.add('page-exit-blur');
+        if (langTransitionOverlay) langTransitionOverlay.classList.add('active');
+        setTimeout(() => { window.location.href = targetUrl; }, 550);
+      });
+    }
+
+    // دالة جلب الشكاوى وعرضها (مع مهلة 8 ثوانٍ للتحقق من الاتصال عند فتح الصفحة)
+    async function fetchComplaints() {
+      const commentsList = document.getElementById('commentsList');
+      
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("TIMEOUT")), 8000);
+      });
+
+      try {
+        const fetchPromise = supabaseClient
+          .from('support_messages')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        const response = await Promise.race([fetchPromise, timeoutPromise]);
+        const { data, error } = response;
+
+        if (error) throw error;
+
+        // الاتصال ناجح -> نخفي شاشة التحميل الافتتاحية ونظهر الموقع
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+
+        if (!data || data.length === 0) {
+          commentsList.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">No submissions yet. Be the first to share your feedback!</p>`;
+          return;
+        }
+
+        commentsList.innerHTML = '';
+        data.forEach(item => {
+          const name = item.username ? item.username : 'Anonymous User';
+          const initial = name.charAt(0).toUpperCase();
+          const status = item.status ? item.status : 'Pending';
+          
+          let statusClass = 'status-pending';
+          let displayStatus = status;
+          
+          if (status.toLowerCase() !== 'pending') {
+            statusClass = 'status-modified';
+            displayStatus = status;
+          }
+
+          const dateFormatted = new Date(item.created_at).toLocaleDateString('en-US', {
+            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+
+          const commentCard = document.createElement('div');
+          commentCard.className = 'comment-card';
+          commentCard.innerHTML = `
+            <div class="comment-header">
+              <div class="comment-user-info">
+                <div class="comment-avatar">${initial}</div>
+                <span class="comment-username">${escapeHtml(name)}</span>
+              </div>
+              <span class="comment-status-badge ${statusClass}">${escapeHtml(displayStatus)}</span>
+            </div>
+            <div class="comment-body">${escapeHtml(item.complaint_text)}</div>
+            <div class="comment-time">${dateFormatted}</div>
+          `;
+          commentsList.appendChild(commentCard);
+        });
+
+      } catch (err) {
+        console.error('Connection/Fetch error:', err);
+        // في حال فشل الاتصال بقاعدة البيانات، يظهر تنبيه خطأ ولا يدخل الصفحة
+        loadingStatusText.innerHTML = "<span style='color: #f87171;'>Server connection failed or no internet. Please check your connection and refresh.</span>";
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // إرسال البيانات وحفظها دون أي Refresh
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+    const form = document.getElementById('supportForm');
+
+    submitBtn.addEventListener('click', async function() {
+      statusMsg.style.display = 'none';
+      submitBtn.style.pointerEvents = 'none';
+      
+      btnText.innerText = "Sending...";
+      btnIcon.innerHTML = '<span class="spinner"></span>';
+
+      const usernameVal = document.getElementById('username').value.trim();
+      const complaintTextVal = document.getElementById('complaint_text').value.trim();
+
+      if (!complaintTextVal) {
+        statusMsg.className = "status-msg error";
+        statusMsg.innerText = "Please fill in the complaint / message details.";
+        btnText.innerText = "Send Message";
+        btnIcon.innerHTML = "→";
+        submitBtn.style.pointerEvents = 'auto';
+        return;
+      }
+
+      const insertData = { complaint_text: complaintTextVal };
+      if (usernameVal !== '') {
+        insertData.username = usernameVal;
+      }
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("TIMEOUT")), 8000);
+      });
+
+      try {
+        const supabasePromise = supabaseClient.from('support_messages').insert([insertData]);
+        const response = await Promise.race([supabasePromise, timeoutPromise]);
+        const error = response.error;
+
+        if (error) throw error;
+
+        // نجح الإرسال وقبول الكومنت تماماً
+        btnText.innerText = "Sent Successfully";
+        btnIcon.innerHTML = "✓";
+        submitBtn.style.backgroundColor = "var(--accent-green)";
+        submitBtn.style.color = "#000";
+
+        statusMsg.className = "status-msg success";
+        statusMsg.innerText = "Thank you! Your message has been posted successfully.";
+        form.reset();
+        
+        // جلب وتحديث باقي الكومنتات فوراً
+        await fetchComplaints();
+
+        // إعادة شكل الزر لحالته الطبيعية بعد ثانيتين
+        setTimeout(() => {
+          btnText.innerText = "Send Message";
+          btnIcon.innerHTML = "→";
+          submitBtn.style.backgroundColor = "";
+          submitBtn.style.color = "";
+          submitBtn.style.pointerEvents = 'auto';
+        }, 2000);
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        
+        btnText.innerText = "Send Message";
+        btnIcon.innerHTML = "→";
+        submitBtn.style.pointerEvents = 'auto';
+        
+        statusMsg.className = "status-msg error";
+        if (err.message === "TIMEOUT") {
+          statusMsg.innerText = "Error: Server response timeout. Please check your internet connection.";
+        } else {
+          statusMsg.innerText = "Error: There is a problem with the server or no connection.";
+        }
+      }
+    });
+
+    // تشغيل دالة الفحص وجلب البيانات أول ما الصفحة تفتح
+    fetchComplaints();
+  </script>
+
+</body>
+</html>
